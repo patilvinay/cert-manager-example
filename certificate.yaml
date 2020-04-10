@@ -2,10 +2,10 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: ingress-cert-1
+  name: hello-subdomain-cert
   #  namespace: default
 spec:
-  secretName: ingress-cert-1
+  secretName: hello-subdomain-cert
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
