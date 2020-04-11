@@ -50,12 +50,13 @@ certificate:
    host: *domain 
 
 virtualService:
-  enabled: true
+  enabled: false
   destination:
     - path: /
       port: 80
       host:
 gateway:
+  enabled: false
   hosts:
     - host: *domain 
       paths: [ / ]
@@ -70,7 +71,7 @@ gateway:
       name: http-default
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: 
      kubernetes.io/ingress.class: istio
     #! kubernetes.io/tls-acme: "true"
