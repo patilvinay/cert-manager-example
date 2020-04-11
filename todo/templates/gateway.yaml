@@ -9,7 +9,7 @@ spec:
   selector:
     istio: ingressgateway # use istio default controller
   servers:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.gateway.hosts }}
     - hosts:
        - {{ .host }}
       port:

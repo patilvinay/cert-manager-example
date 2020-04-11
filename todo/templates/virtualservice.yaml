@@ -1,0 +1,25 @@
+{{- if .Values.virtualService.enabled -}}
+{{ $host := include "todo.fullname" . }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "todo.fullname" . }}
+  labels:
+    {{- include "todo.labels" . | nindent 4 }}
+spec:
+  hosts:
+  - {{ .Values.app.domain }}
+  gateways:
+  - {{ include "todo.fullname" . }}
+  http:
+  {{- range .Values.virtualService.destination }}
+  - match:
+    - uri:
+        prefix: {{ .path }}
+    route:
+    - destination:
+        host: {{ $host }}
+        port:
+          number: {{ .port }}
+  {{ end }}
+{{ end }}

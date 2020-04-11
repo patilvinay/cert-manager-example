@@ -1,7 +1,11 @@
 #@data/values
 ---
+ #&domain ngxconnect.in
 
-
+app: 
+  domain: &domain todo.ngxconnect.in
+  name: &app-name todo
+#   name: todo
 #! Default values for todo.
 #! This is a YAML-formatted file.
 #! Declare variables to be passed into your templates.
@@ -43,21 +47,41 @@ certificate:
    issuer: letsencrypt
    type: staging #! emum { staging , prod}
    name: cert-todo
-   host: todo.ngxconnect.in
+   host: *domain 
 
-ingress:
+virtualService:
   enabled: true
-  annotations: 
-     kubernetes.io/ingress.class: istio
-    #! kubernetes.io/tls-acme: "true"
+  destination:
+    - path: /
+      port: 80
+      host:
+gateway:
   hosts:
-    - host: todo.ngxconnect.in
+    - host: *domain 
       paths: [ / ]
       port: 80
       protocol: HTTP
       name: http
 
-    - host: todo.ngxconnect.in
+    - host: *domain 
+      paths: [ / ]
+      port: 443
+      protocol: HTTPS
+      name: http-default
+
+ingress:
+  enabled: false
+  annotations: 
+     kubernetes.io/ingress.class: istio
+    #! kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: *domain 
+      paths: [ / ]
+      port: 80
+      protocol: HTTP
+      name: http
+
+    - host: *domain 
       paths: [ / ]
       port: 443
       protocol: HTTPS
