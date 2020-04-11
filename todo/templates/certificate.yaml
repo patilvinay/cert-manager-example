@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
    name: {{ .Values.certificate.name }}-{{ .Values.certificate.type }}
+   namespace: istio-system
 spec:
   secretName:  {{ .Values.certificate.name }}-{{ .Values.certificate.type }}
   issuerRef:
