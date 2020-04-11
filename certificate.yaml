@@ -1,16 +1,24 @@
+#@ load("@ytt:data", "data")
+
 ---
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: hello-subdomain-cert-prod
-  #  namespace: default
+   name: #@ data.values.certificate.name+"-"+data.values.certificate.type
+   
+
 spec:
-  secretName: hello-subdomain-cert-prod
+  secretName:  #@ data.values.certificate.name+"-"+data.values.certificate.type
   issuerRef:
+    #@ if data.values.certificate.type == 'production':
     name: letsencrypt
+    #@ elif data.values.certificate.type == 'staging':
+    name: letsencrypt-staging
+    #@ end
     kind: ClusterIssuer
   commonName: hello.ngxconnect.in
   dnsNames:
-    - hello.ngxconnect.in
-  
+   #@ for/end host in data.values.ingress.hosts:
+   - #@ host.host
+    
 ---
