@@ -18,7 +18,7 @@ fullnameOverride: ""
 
 serviceAccount:
   #! Specifies whether a service account should be created
-  create: true
+  create: false
   #! Annotations to add to the service account
   annotations: {}
   #! The name of the service account to use.
@@ -41,8 +41,9 @@ service:
   port: 80
 certificate:
    issuer: letsencrypt
-   type: prod #! emum { staging , prod}
+   type: staging #! emum { staging , prod}
    name: cert-todo
+   host: todo.ngxconnect.in
 
 ingress:
   enabled: true
@@ -52,6 +53,15 @@ ingress:
   hosts:
     - host: todo.ngxconnect.in
       paths: [ / ]
+      port: 80
+      protocol: HTTP
+      name: http
+
+    - host: todo.ngxconnect.in
+      paths: [ / ]
+      port: 443
+      protocol: HTTPS
+      name: http-default
   tls: []
   #!  - secretName: chart-example-tls
   #!    hosts:
